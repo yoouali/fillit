@@ -27,6 +27,7 @@ char	**rem_tetr(char **map, t_pos *pos, int *t)
 	int		i;
 	int		j;
 	int		k;
+	char	c = 'A';
 
 	if (*t < 0)
 	{
@@ -36,6 +37,7 @@ char	**rem_tetr(char **map, t_pos *pos, int *t)
 		*t = 0;
 		return (ft_sq(ft_sq_plus(map)));
 	}
+	pos->a = pos->a - 1;
 	i = 0;
 	k = 0;
 	while (map[i])
@@ -43,14 +45,16 @@ char	**rem_tetr(char **map, t_pos *pos, int *t)
 		j = 0;
 		while (map[i][j])
 		{
-			if (map[i][j] == pos->a && k == 0)
+			if (map[i][j] == (char)(c + *t))
 			{
-				pos->r = i;
-				pos->c = j;
-				k++;
-			}
-			if (map[i][j] == pos->a)
+				if (k == 0)
+				{
+					pos->r = j + 1;
+					pos->c = i;
+					k++;
+				}
 				map[i][j] = '.';
+			}
 			j++;
 		}
 		i++;
@@ -64,7 +68,7 @@ char	**put_tetr(char **map, char **tab, t_pos *pos, int *t)
 	int		j;
 
 	i = 0;
-	pos->a = pos->a + *t;
+	pos->a = pos->a + 1;
 	*t = *t + 1;
 	while (tab[i])
 	{
@@ -72,17 +76,19 @@ char	**put_tetr(char **map, char **tab, t_pos *pos, int *t)
 		while (tab[i][j])
 		{
 			if (tab[i][j] != '.')
-				map[pos-> c + i][pos->r + j] = tab[i][j];
+				map[pos->c + i][pos->r + j] = tab[i][j];
 			j++;
 		}
 		i++;
 	}
+	pos->c = 0;
+	pos->r = 0;
 	return (map);
 }
 
 char	**ft_solv(char **map, char ***tab)
 {
-	t_pos	*pos;
+	static t_pos	*pos;
 	int		i;
 	int		len;
 
@@ -105,8 +111,7 @@ char	**ft_solv(char **map, char ***tab)
 		}
 		if (pos->c >= len)
 		{
-			i--;
-			pos->a = pos->a + i;
+			i = i - 1;
 			map = rem_tetr(map, pos, &i);
 		}
 		else
