@@ -5,33 +5,54 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoouali <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/20 15:08:28 by yoouali           #+#    #+#             */
-/*   Updated: 2019/06/14 10:51:46 by yoouali          ###   ########.fr       */
+/*   Created: 2019/06/14 16:21:13 by yoouali           #+#    #+#             */
+/*   Updated: 2019/06/15 12:26:36 by yoouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-int	main(int ac, char **av)
+void	ft_free_tab(char ***tab)
 {
-	int	fd;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (tab[i])
+	{
+		j = 0;
+		while (tab[i][j])
+		{
+			free(tab[i][j]);
+			j++;
+		}
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+}
+
+int		main(int ac, char **av)
+{
+	int		fd;
+	char	***tab;
+	char	**map;
 
 	if (ac != 2)
-		write(1, "the fillit file missing\n", 23);
-	else
 	{
-		fd = open(av[1], O_RDONLY);
-		char ***tab = ft_read(fd);
-		char **map = ft_sq(ft_count_sq(tab));
-		ft_putstr2(map);
-		int i = 0;
-		while (tab[i])
-		{
-			ft_putstr2(tab[i]);
-			i++;
-		}
-		map = ft_solv(map, tab);
-		ft_putstr2(map);
+		ft_putstr("the argment less then 1 or more\n");
+		return (0);
 	}
+	fd = open(av[1], O_RDONLY);
+	if (!(tab = ft_read(fd)))
+	{
+		ft_putendl("error");
+		exit(0);
+	}
+	map = ft_sq(tab);
+	map = ft_solv(tab, map);
+	ft_free_tab(tab);
+	ft_putstr2(map);
+	ft_free_map(map);
 	return (0);
 }

@@ -5,29 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoouali <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/20 15:10:42 by yoouali           #+#    #+#             */
-/*   Updated: 2019/06/03 06:12:52 by yoouali          ###   ########.fr       */
+/*   Created: 2019/06/14 16:27:58 by yoouali           #+#    #+#             */
+/*   Updated: 2019/06/15 12:41:40 by yoouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-static	int	check_buff(char *buff)
+int		check_tetr(char *str)
 {
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	while (buff[i])
+	while (str[i])
 	{
-		if (buff[i] == '#')
-		{
-			if (buff[i] == '#' && buff[i - 1] != '#' && buff[i + 1] != '#'\
-					&& buff[i + 5] != '#' && buff[i - 5] != '#')
-				return (0);
+		if (str[i] == '#' && str[i + 1] != '#' && str[i - 1] != '#'\
+				&& str[i + 5] != '#' && str[i - 5] != '#')
+			return (0);
+		if (str[i] == '#')
 			j++;
-		}
 		i++;
 	}
 	if (j != 4)
@@ -35,59 +33,59 @@ static	int	check_buff(char *buff)
 	return (1);
 }
 
-static	int	buff_check(char *buff, int len)
+int		check_buff(char *str, int len)
 {
 	int		i;
-	int		j;
 	int		k;
+	int		j;
 
 	i = 0;
 	j = 0;
 	k = 1;
-	while (buff[i])
+	while (str[i])
 	{
-		if (buff[i] != '.' && buff[i] != '#' && buff[i] != '\n')
+		if (str[i] != '\n' && str[i] != '#' && str[i] != '.')
 			return (0);
-		if (buff[i] == '.' || buff[i] == '#')
+		if (str[i] == '#' || str[i] == '.')
 			j++;
-		if (buff[i] == '\n')
+		if (str[i] == '\n')
 		{
-			if (buff[i] == '\n' && buff[i + 1] != '\0' && j / k != 4)
+			if (str[i + 1] != '\0' && j / k != 4)
 				return (0);
 			k++;
 		}
 		i++;
 	}
-	if ((len == 20 && k != 5) || (len == 21 && k != 6) ||
-			j != 16 || !check_buff(buff))
+	if ((len == 20 && k != 5) || (len == 21 && k != 6) || !check_tetr(str))
 		return (0);
 	return (1);
 }
 
-char		***ft_read(int fd)
+char	***ft_read(int fd)
 {
-	int		len;
 	int		tetr;
-	char	*tmp;
+	int		len;
 	char	*str;
 	char	buff[22];
+	char	*tmp;
 
-	str = ft_strnew(0);
 	tetr = 0;
+	str = ft_strnew(0);
 	while ((len = read(fd, buff, 21)) > 0)
 	{
 		buff[len] = '\0';
-		if (!buff_check(buff, len))
+		if (!check_buff(buff, len))
+		{
+			free(str);
 			return (NULL);
+		}
 		tmp = str;
 		str = ft_strjoin(str, buff);
 		free(tmp);
 		tetr++;
 	}
-	if ((len < 1 && !*str) || (str[(21 * tetr) - 1] != '\0'))
-	{
-		free(str);
-		return (NULL);
-	}
-	return (ft_stock(str, tetr));
+	if (*str && str[tetr * 21 - 1] == '\0' && tetr < 27)
+		return (ft_stock(str, tetr));
+	free(str);
+	return (NULL);
 }

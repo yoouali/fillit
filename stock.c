@@ -5,18 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoouali <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/21 15:57:53 by yoouali           #+#    #+#             */
-/*   Updated: 2019/06/04 22:28:37 by yoouali          ###   ########.fr       */
+/*   Created: 2019/06/14 22:09:36 by yoouali           #+#    #+#             */
+/*   Updated: 2019/06/15 12:19:05 by yoouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-static	void	ft_st4(char **tab, int k)
+void	ft_put_alpha(char **tab, int tetr)
 {
+	char	x;
 	int		i;
 	int		j;
 
+	x = (char)('A' + tetr);
 	i = 0;
 	while (tab[i])
 	{
@@ -24,103 +26,100 @@ static	void	ft_st4(char **tab, int k)
 		while (tab[i][j])
 		{
 			if (tab[i][j] == '#')
-				tab[i][j] = 'A' + k;
+				tab[i][j] = x;
 			j++;
 		}
 		i++;
 	}
 }
 
-static	char	**ft_st3(char **tab, int pos, int lon, int lin)
+void	ft_free_tmp(char **tmp)
 {
-	char	**tab1;
+	int		i;
+
+	i = 0;
+	while (tmp[i])
+	{
+		free(tmp[i]);
+		i++;
+	}
+	free(tmp);
+}
+
+char	**ft_put_tetr(char **tmp, int ind, int len, int lin)
+{
 	int		i;
 	int		j;
+	char	**tab;
 
 	i = 0;
 	j = 0;
-	if (!(tab1 = (char **)malloc(sizeof(char *) * (lin + 1))))
+	if (!(tab = (char **)malloc(sizeof(char *) * (lin + 1))))
 		return (NULL);
-	while (tab[i])
+	while (tmp[i])
 	{
-		if (ft_strchr(tab[i], '#'))
+		if (ft_strchr(tmp[i], '#'))
 		{
-			tab1[j] = ft_strsub(tab[i], pos, lon);
+			tab[j] = ft_strsub(tmp[i], ind, len);
 			j++;
 		}
 		i++;
 	}
-	tab1[j] = NULL;
-	return (tab1);
+	tab[j] = NULL;
+	return (tab);
 }
 
-static	char	**ft_st2(char **tab)
+char	**ft_smaller(char **tmp)
 {
 	int		i;
-	int		pos;
-	int		lon;
+	int		len;
 	int		lin;
+	int		pos1;
+	int		pos2;
 
 	i = 0;
-	pos = 4;
-	lon = 0;
+	pos1 = 4;
+	pos2 = 0;
 	lin = 0;
-	while (tab[i])
+	while (tmp[i])
 	{
-		if (ft_strchr(tab[i], '#'))
+		if (ft_strchr(tmp[i], '#'))
 		{
-			if (ft_strchr(tab[i], '#') - tab[i] < pos)
-				pos = ft_strchr(tab[i], '#') - tab[i];
-			if (ft_strrchr(tab[i], '#') - tab[i] > lon)
-				lon = ft_strrchr(tab[i], '#') - tab[i];
+			if (ft_strchr(tmp[i], '#') - tmp[i] < pos1)
+				pos1 = ft_strchr(tmp[i], '#') - tmp[i];
+			if (ft_strrchr(tmp[i], '#') - tmp[i] > pos2)
+				pos2 = ft_strrchr(tmp[i], '#') - tmp[i];
 			lin++;
 		}
 		i++;
 	}
-	lon = lon - pos + 1;
-	return (ft_st3(tab, pos, lon, lin));
+	len = pos2 - pos1 + 1;
+	return (ft_put_tetr(tmp, pos1, len, lin));
 }
 
-static	char	**ft_st1(char *str)
+char	***ft_stock(char *str, int tetr)
 {
-	int		i;
-	char	**tab1;
-	char	**tab2;
-
-	tab1 = ft_strsplit(str, '\n');
-	tab2 = ft_st2(tab1);
-	i = 0;
-	while (tab1[i])
-	{
-		free(tab1[i]);
-		i++;
-	}
-	free(tab1);
-	free(str);
-	return (tab2);
-}
-
-char			***ft_stock(char *str, int tetr)
-{
+	char	***tab;
+	char	**tmp;
+	char	*tmps;
 	int		i;
 	int		k;
-	char	***tab;
-	char	*tmp;
 
+	i = 0;
+	k = 0;
 	if (!(tab = (char ***)malloc(sizeof(char **) * (tetr + 1))))
 		return (NULL);
 	i = 0;
-	tmp = str;
-	while (tetr > 0)
+	while (i < tetr)
 	{
-		k = 21;
-		if (tetr == 1)
-			k = 20;
-		tab[i] = ft_st1(ft_strsub(tmp, 0, k));
-		ft_st4(tab[i], i);
+		tmps = ft_strsub(str, k, 21);
+		tmp = ft_strsplit(tmps, '\n');
+		tab[i] = ft_smaller(tmp);
+		ft_free_tmp(tmp);
+		ft_put_alpha(tab[i], i);
+		free(tmps);
 		i++;
-		tetr--;
-		tmp = tmp + k;
+		k = k + 21;
 	}
 	tab[i] = NULL;
 	free(str);

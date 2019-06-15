@@ -1,6 +1,19 @@
-#include "fillit.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   solv.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yoouali <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/14 23:50:41 by yoouali           #+#    #+#             */
+/*   Updated: 2019/06/15 12:20:46 by yoouali          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int		check_pos(char **map, char **tab, int r, int c)
+#include "fillit.h"
+#include <stdio.h>
+
+int		check_pos(char **tab, char **map, t_pos *pos)
 {
 	int		i;
 	int		j;
@@ -9,11 +22,12 @@ int		check_pos(char **map, char **tab, int r, int c)
 	while (tab[i])
 	{
 		j = 0;
-		if (!map[c + i])
+		if (!map[pos->c + i])
 			return (0);
 		while (tab[i][j])
 		{
-			if ((map[c + i][r + j] != '.' && tab[i][j] != '.') || !map[c + i][r + j])
+			if ((map[pos->c + i][pos->r + j] != '.' && tab[i][j] != '.')\
+					|| map[pos->c + i][pos->r + j] == '\0')
 				return (0);
 			j++;
 		}
@@ -22,54 +36,41 @@ int		check_pos(char **map, char **tab, int r, int c)
 	return (1);
 }
 
-char	**rem_tetr(char **map, t_pos *pos, int *t)
+char	**rem_tetr(char **map, t_pos *pos)
 {
 	int		i;
 	int		j;
 	int		k;
-	char	c = 'A';
 
-	if (*t < 0)
-	{
-		pos->r = 0;
-		pos->c = 0;
-		pos->a = 'A';
-		*t = 0;
-		return (ft_sq(ft_sq_plus(map)));
-	}
-	pos->a = pos->a - 1;
-	i = 0;
+	pos->t = pos->t - 1;
+	if (pos->t < 0)
+		return (ft_sq_plus(map, pos));
+	i = -1;
 	k = 0;
-	while (map[i])
+	while (map[++i])
 	{
-		j = 0;
-		while (map[i][j])
+		j = -1;
+		while (map[i][++j])
 		{
-			if (map[i][j] == (char)(c + *t))
+			if (map[i][j] == 'A' + pos->t && k != 0)
 			{
-				if (k == 0)
-				{
-					pos->r = j + 1;
-					pos->c = i;
-					k++;
-				}
-				map[i][j] = '.';
+				k = 1;
+				pos->r = j + 1;
+				pos->c = i;
 			}
-			j++;
+			if (map[i][j] == 'A' + pos->t)
+				map[i][j] = '.';
 		}
-		i++;
 	}
 	return (map);
 }
 
-char	**put_tetr(char **map, char **tab, t_pos *pos, int *t)
+char	**put_tetr(char **tab, char **map, t_pos *pos)
 {
 	int		i;
 	int		j;
 
 	i = 0;
-	pos->a = pos->a + 1;
-	*t = *t + 1;
 	while (tab[i])
 	{
 		j = 0;
@@ -81,41 +82,37 @@ char	**put_tetr(char **map, char **tab, t_pos *pos, int *t)
 		}
 		i++;
 	}
+	pos->t = pos->t + 1;
 	pos->c = 0;
 	pos->r = 0;
 	return (map);
 }
 
-char	**ft_solv(char **map, char ***tab)
+char	**ft_solv(char ***tab, char **map)
 {
-	static t_pos	*pos;
-	int		i;
-	int		len;
+	t_pos	*pos;
 
-	pos = malloc(sizeof(t_pos));
+	if (!(pos = (t_pos *)malloc(sizeof(t_pos))))
+		return (NULL);
+	pos->t = 0;
 	pos->r = 0;
 	pos->c = 0;
-	pos->a = 'A';
-	i = 0;
-	len = ft_strlen(map[0]);
-	while (tab[i])
+	pos->len = ft_strlen(map[0]);
+	while (tab[pos->t])
 	{
-		while (pos->c < len && !check_pos(map, tab[i], pos->r, pos->c))
+		while (pos->c < pos->len && !check_pos(tab[pos->t], map, pos))
 		{
-			pos->r = pos->r + 1;
-			if (pos->r >= len)
+			if ((pos->r = pos->r + 1) >= pos->len)
 			{
 				pos->r = 0;
 				pos->c = pos->c + 1;
 			}
 		}
-		if (pos->c >= len)
-		{
-			i = i - 1;
-			map = rem_tetr(map, pos, &i);
-		}
+		if (pos->c >= pos->len)
+			map = rem_tetr(map, pos);
 		else
-			put_tetr(map, tab[i], pos, &i);
+			map = put_tetr(tab[pos->t], map, pos);
 	}
+	free(pos);
 	return (map);
 }
