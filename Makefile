@@ -6,21 +6,24 @@
 #    By: yoouali <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/15 12:27:36 by yoouali           #+#    #+#              #
-#    Updated: 2019/06/15 13:06:58 by yoouali          ###   ########.fr        #
+#    Updated: 2019/06/15 13:16:29 by yoouali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 LB = libft/libft.a
 SR = main.c read.c stock.c sq.c solv.c
-FI = Fillit
+OB = main.o read.o stock.o sq.o solv.o
+NAME = Fillit
 
-NAME = make -C libft
-	   gcc -Wall -Wextra -Werror -o $(FI) $(SR) $(LB)
-all : 
-	$(NAME)
+all : $(NAME)
+$(NAME) :
+			make -C libft all
+			gcc -Wall -Wextra -Werror -c $(SR)
+			gcc -Wall -Wextra -Werror -o $(NAME) $(SR) $(LB)	
 clean :
 	make -C libft clean
+	rm -f $(OB)
 fclean : clean
 	make -C libft fclean
-	rm -f $(FI)
+	rm -f $(NAME)
 re : fclean all
