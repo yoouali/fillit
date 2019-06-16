@@ -6,7 +6,7 @@
 #    By: yoouali <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/15 12:27:36 by yoouali           #+#    #+#              #
-#    Updated: 2019/06/15 13:16:29 by yoouali          ###   ########.fr        #
+#    Updated: 2019/06/15 15:47:28 by yoouali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,7 @@ NAME = Fillit
 all : $(NAME)
 $(NAME) :
 			make -C libft all
-			gcc -Wall -Wextra -Werror -c $(SR)
-			gcc -Wall -Wextra -Werror -o $(NAME) $(SR) $(LB)	
+			gcc -Wall -Wextra -Werror -o $(NAME) $(SR) $(LB)
 clean :
 	make -C libft clean
 	rm -f $(OB)

@@ -6,7 +6,7 @@
 /*   By: yoouali <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 23:50:41 by yoouali           #+#    #+#             */
-/*   Updated: 2019/06/15 13:19:28 by yoouali          ###   ########.fr       */
+/*   Updated: 2019/06/16 15:05:46 by yoouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int		check_pos(char **tab, char **map, t_pos *pos)
 			return (0);
 		while (tab[i][j])
 		{
-			if ((map[pos->c + i][pos->r + j] != '.' && tab[i][j] != '.')\
-					|| map[pos->c + i][pos->r + j] == '\0')
+			if (!map[pos->c + i][pos->r + j] ||\
+					(map[pos->c + i][pos->r + j] != '.' && tab[i][j] != '.'))
 				return (0);
 			j++;
 		}
@@ -40,27 +40,27 @@ char	**rem_tetr(char **map, t_pos *pos)
 {
 	int		i;
 	int		j;
-	int		k;
 
 	pos->t = pos->t - 1;
 	if (pos->t < 0)
 		return (ft_sq_plus(map, pos));
-	i = -1;
-	k = 0;
-	while (map[++i])
+	pos->r = 4;
+	pos->c = 4;
+	i = 0;
+	while (map[i])
 	{
-		j = -1;
-		while (map[i][++j])
+		j = 0;
+		while (map[i][j])
 		{
-			if (map[i][j] == 'A' + pos->t && k != 0)
-			{
-				k = 1;
+			if (map[i][j] == 'A' + pos->t && pos->r > j)
 				pos->r = j + 1;
+			if (map[i][j] == 'A' + pos->t && pos->c > i)
 				pos->c = i;
-			}
 			if (map[i][j] == 'A' + pos->t)
 				map[i][j] = '.';
+			j++;
 		}
+		i++;
 	}
 	return (map);
 }

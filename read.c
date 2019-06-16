@@ -6,7 +6,7 @@
 /*   By: yoouali <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 16:27:58 by yoouali           #+#    #+#             */
-/*   Updated: 2019/06/15 12:41:40 by yoouali          ###   ########.fr       */
+/*   Updated: 2019/06/16 09:34:21 by yoouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,22 @@ int		check_tetr(char *str)
 {
 	int		i;
 	int		j;
+	int		k;
 
 	i = 0;
 	j = 0;
+	k = 0;
 	while (str[i])
 	{
-		if (str[i] == '#' && str[i + 1] != '#' && str[i - 1] != '#'\
-				&& str[i + 5] != '#' && str[i - 5] != '#')
-			return (0);
+		if (str[i] == '#' && str[i + 1] == '#')
+			k++;
+		if (str[i] == '#' && str[i + 5] == '#')
+			k++;
 		if (str[i] == '#')
 			j++;
 		i++;
 	}
-	if (j != 4)
+	if (j != 4 || k < 3)
 		return (0);
 	return (1);
 }
