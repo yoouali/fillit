@@ -6,7 +6,7 @@
 /*   By: yoouali <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 23:50:41 by yoouali           #+#    #+#             */
-/*   Updated: 2019/06/16 15:05:46 by yoouali          ###   ########.fr       */
+/*   Updated: 2019/06/17 13:01:02 by yoouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,34 @@ int		check_pos(char **tab, char **map, t_pos *pos)
 	return (1);
 }
 
+char	**rem1(char **map, t_pos *pos)
+{
+	int i;
+	int j;
+	int	k;
+
+	i = 0;
+	k = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] == 'A' + pos->t && k == 0)
+			{
+				k = 1;
+				pos->r = j + 1;
+				pos->c = i;
+			}
+			if (map[i][j] == 'A' + pos->t)
+				map[i][j] = '.';
+			j++;
+		}
+		i++;
+	}
+	return (map);
+}
+
 char	**rem_tetr(char **map, t_pos *pos)
 {
 	int		i;
@@ -44,6 +72,8 @@ char	**rem_tetr(char **map, t_pos *pos)
 	pos->t = pos->t - 1;
 	if (pos->t < 0)
 		return (ft_sq_plus(map, pos));
+	if (pos->len > 5)
+		return (rem1(map, pos));
 	pos->r = 4;
 	pos->c = 4;
 	i = 0;
