@@ -6,7 +6,7 @@
 /*   By: yoouali <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 16:21:13 by yoouali           #+#    #+#             */
-/*   Updated: 2019/06/18 15:50:28 by yoouali          ###   ########.fr       */
+/*   Updated: 2019/06/18 16:03:17 by yoouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		main(int ac, char **av)
 
 	if (ac != 2)
 	{
-		ft_putstr("the argment less then 1 or more\n");
+		ft_putstr("usage: te file misiing\n");
 		return (0);
 	}
 	fd = open(av[1], O_RDONLY);
