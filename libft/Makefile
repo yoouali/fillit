@@ -6,7 +6,7 @@
 #    By: yoouali <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/29 20:18:16 by yoouali           #+#    #+#              #
-#    Updated: 2019/06/15 13:10:31 by yoouali          ###   ########.fr        #
+#    Updated: 2019/06/20 21:24:28 by akhossan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,10 @@ Obje = ft_lst_white_spaces.o ft_memdel.o ft_putstr2.o ft_striteri.o ft_strrchr.o
 NAME = libft.a
 all :$(NAME)
 $(NAME):
-	    gcc -Wall -Wextra -Werror -c $(Srcs)
-		ar rc $(NAME) $(Obje)
+	    @gcc -Wall -Wextra -Werror -c $(Srcs)
+		@ar rc $(NAME) $(Obje)
 clean :
-	rm -f $(Obje)
+	@rm -f $(Obje)
 fclean : clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 re : fclean all

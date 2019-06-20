@@ -6,12 +6,11 @@
 /*   By: yoouali <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 23:50:41 by yoouali           #+#    #+#             */
-/*   Updated: 2019/06/18 15:58:52 by yoouali          ###   ########.fr       */
+/*   Updated: 2019/06/20 21:57:32 by akhossan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
-#include <stdio.h>
+#include "../includes/fillit.h"
 
 int		check_pos(char **tab, char **map, t_pos *pos)
 {

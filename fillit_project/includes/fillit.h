@@ -6,13 +6,13 @@
 /*   By: yoouali <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 16:17:32 by yoouali           #+#    #+#             */
-/*   Updated: 2019/06/15 12:23:05 by yoouali          ###   ########.fr       */
+/*   Updated: 2019/06/20 22:00:08 by akhossan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLIT_H
 # define FILLIT_H
-# include "libft/libft.h"
+# include "../../libft/libft.h"
 # include <fcntl.h>
 
 typedef	struct		s_pos

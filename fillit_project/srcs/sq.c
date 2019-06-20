@@ -6,11 +6,11 @@
 /*   By: yoouali <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 23:14:29 by yoouali           #+#    #+#             */
-/*   Updated: 2019/06/18 15:59:18 by yoouali          ###   ########.fr       */
+/*   Updated: 2019/06/20 21:58:42 by akhossan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "../includes/fillit.h"
 
 void	ft_free_map(char **map)
 {

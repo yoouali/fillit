@@ -6,11 +6,11 @@
 /*   By: yoouali <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 22:09:36 by yoouali           #+#    #+#             */
-/*   Updated: 2019/06/18 16:00:37 by yoouali          ###   ########.fr       */
+/*   Updated: 2019/06/20 21:58:24 by akhossan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "../includes/fillit.h"
 
 void	ft_put_alpha(char **tab, int tetr)
 {

@@ -6,11 +6,11 @@
 /*   By: yoouali <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 16:21:13 by yoouali           #+#    #+#             */
-/*   Updated: 2019/06/18 16:03:17 by yoouali          ###   ########.fr       */
+/*   Updated: 2019/06/20 21:56:21 by akhossan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "../includes/fillit.h"
 
 void	ft_free_tab(char ***tab)
 {
@@ -40,7 +40,7 @@ int		main(int ac, char **av)
 
 	if (ac != 2)
 	{
-		ft_putstr("usage: te file misiing\n");
+		ft_putendl("usage: ./fillit file_name");
 		return (0);
 	}
 	fd = open(av[1], O_RDONLY);
