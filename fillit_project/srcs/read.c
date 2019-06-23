@@ -6,7 +6,7 @@
 /*   By: yoouali <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 16:27:58 by yoouali           #+#    #+#             */
-/*   Updated: 2019/06/20 21:57:09 by akhossan         ###   ########.fr       */
+/*   Updated: 2019/06/23 22:15:28 by yoouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	***ft_read(int fd)
 	while ((len = read(fd, buff, 21)) > 0)
 	{
 		buff[len] = '\0';
-		if (!check_buff(buff, len))
+		if (!check_buff(buff, len) || (len != 21 && len != 20))
 		{
 			free(str);
 			return (NULL);
